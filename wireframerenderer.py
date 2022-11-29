@@ -1,5 +1,4 @@
 from turtle import Turtle, Screen
-from numpy import dot
 from math import cos, sin
 from time import sleep
 
@@ -14,7 +13,11 @@ z - up and down
 
 middle of screen is 0, 0, 0
 screen size: -400, 0, -400 to 400, 0, 400
+
+direction - "ccw" means counter clockwise, everything else is clockwise
 '''
+
+direction = "ccw"
 
 points = [
     [-100, 100, -100],
@@ -44,6 +47,20 @@ connections = [
     [6, 7]
 ]
 
+def dot(pointlist = list, matrix = list):
+    output = []
+
+    for pointIndex in range(len(pointlist)):
+        tempoutput = []
+        for point in range(len(pointlist[pointIndex])):
+            tempvar = 0
+            for matrixIndex in range(len(pointlist[pointIndex])):
+                tempvar += points[pointIndex][matrixIndex] * matrix[point][matrixIndex]
+            tempoutput.append(tempvar)
+        output.append([y for y in tempoutput])
+
+    return output
+
 screen = Screen()
 draw = Turtle()
 
@@ -56,12 +73,12 @@ draw.pensize(2)
 draw.color("#ffffff")
 draw.hideturtle()
 
-degrees = 44
+degrees = 44 if direction.lower() == "ccw" else -44
 
 rotationmatrix = [
     [cos(degrees), 0 - sin(degrees), 0],
-    [sin(degrees), cos(degrees), 0],
-    [0, 0, 1]
+    [sin(degrees), cos(degrees),     0],
+    [0,            0,                1]
 ]
 
 while True:
